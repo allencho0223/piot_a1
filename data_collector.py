@@ -1,6 +1,7 @@
 import time
 import sqlite3
 from sense_hat import SenseHat
+from timezone import convertTimeZone
 
 dbname="sensehat_env.db"
 sampleFreq = 1 # time in seconds
@@ -32,7 +33,8 @@ def getSenseHatData():
 def putData(humidity, temperature, pressure):
     conn = sqlite3.connect(dbname)
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO SENSEHAT_data values(datetime('now'), (?), (?), (?))", (humidity, temperature, pressure))
+    aestTime = convertTimeZone()
+    cursor.execute("INSERT INTO SENSEHAT_data values((?), (?), (?), (?))", (aestTime, humidity, temperature, pressure))
     conn.commit()
     conn.close()
 
