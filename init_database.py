@@ -1,3 +1,8 @@
+#!/usr/bin/env python3
+
+### Acknowledgements
+# Database connection script is from PIoT lab 4 code archive of RMIT
+
 import sqlite3 as lite
 import sys
 con = lite.connect('sensehat_env.db')
