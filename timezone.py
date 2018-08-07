@@ -12,7 +12,7 @@ from sense_hat import SenseHat
 # Get the UTC object
 utcTimeZone = datetime.now(timezone('UTC'))
 
-# Convert to Melbourn time zone
+# Convert to Melbourne time zone
 aestTimeZone = utcTimeZone.astimezone(timezone('Australia/Melbourne'))
 
 # Declare a SenseHAT object and display Melbourne time zone
