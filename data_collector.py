@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 import time
 import sqlite3
 from sense_hat import SenseHat
@@ -7,8 +6,6 @@ from timezone import convertTimeZone
 
 # Set absolute path for database
 dbname="/home/pi/iot/ass1/sensehat_env.db"
-# sampleFreq = 1 # time in seconds
-
 
 def getSenseHatData():
     sense = SenseHat()
@@ -36,6 +33,7 @@ def putData(humidity, temperature, pressure):
     conn.close()
 
 def displayData():
+    sense = SenseHat()
     conn = sqlite3.connect(dbname)
     curs = conn.cursor()
     print("\nEntire database contents:\n")
@@ -46,7 +44,6 @@ def displayData():
 def main():
     for i in range(0,3):
         getSenseHatData()
-        # time.sleep(sampleFreq)
     displayData()
 
 main()
