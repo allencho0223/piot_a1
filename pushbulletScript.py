@@ -25,10 +25,10 @@ def send_notification_via_pushbullet(title, body):
 #main function
 def main():
     temperature = getTemperature()
-    if temperature < 20:
-        send_notification_via_pushbullet(temperature, "Current temperature of this place is below 20 degree centigrade. Don't forget to bring a sweater :)")
-    # ip_address = os.popen('hostname -I').read()
-    # send_notification_via_pushbullet(ip_address, "From Raspberry Pi")
+    if temperature  < 20:
+        send_notification_via_pushbullet("Current temperature: " + str(temperature), "Current temperature is below 20 degrees. Don't forget to bring a sweater!")
+    elif temperature > 30:
+        send_notification_via_pushbullet("Current temperature: " + str(temperature), "Current temperature is above 30 degrees. It's really hot outside!")
 
 #Execute
 main()
