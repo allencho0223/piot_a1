@@ -6,6 +6,8 @@ import os
 import time
 from sense_hat import SenseHat
 
+sense = SenseHat()
+
 # get CPU temperature
 def get_cpu_temp():
     res = os.popen("vcgencmd measure_temp").readline()
@@ -21,9 +23,6 @@ def get_smooth(x):
     get_smooth.t[0] = x
     xs = (get_smooth.t[0]+get_smooth.t[1]+get_smooth.t[2])/3
     return(xs)
-
-
-sense = SenseHat()
 
 def returnAccurateTemp():
 
