@@ -2,7 +2,7 @@
 import time
 import sqlite3
 from sense_hat import SenseHat
-from timezone import convertTimeZone
+from accurateTemperature import returnAccurateTemp
 
 # Set absolute path for database
 dbname="/home/pi/iot/ass1/sensehat_env.db"
@@ -12,7 +12,7 @@ sense = SenseHat()
 
 # Get temperature from sensehat
 def getTemperature():
-    temperature = sense.get_temperature()
+    temperature = returnAccurateTemp()
     if temperature is not None:
         temperature = round(temperature, 1)
     return temperature

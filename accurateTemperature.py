@@ -25,7 +25,8 @@ def get_smooth(x):
 
 sense = SenseHat()
 
-while True:
+def returnAccurateTemp():
+
     t1 = sense.get_temperature_from_humidity()
     t2 = sense.get_temperature_from_pressure()
     t_cpu = get_cpu_temp()
@@ -33,11 +34,8 @@ while True:
     p = sense.get_pressure()
 
     # calculates the real temperature compesating CPU heating
-    t = (t1+t2)/2
-    t_corr = t - ((t_cpu-t)/1.5)
+    t = (t1 + t2) / 2
+    t_corr = t - ((t_cpu - t) / 1.5)
     t_corr = get_smooth(t_corr)
-
-    print("t1=%.1f  t2=%.1f  t_cpu=%.1f  t_corr=%.1f  h=%d  p=%d" %
-            (t1, t2, t_cpu, t_corr, round(h), round(p)))
-
-    time.sleep(5)
+    
+    return t_corr
