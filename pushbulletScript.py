@@ -29,6 +29,8 @@ def main():
         send_notification_via_pushbullet("Current temperature: " + str(temperature), "Current temperature is below 20 degrees. Don't forget to bring a sweater!")
     elif temperature > 30:
         send_notification_via_pushbullet("Current temperature: " + str(temperature), "Current temperature is above 30 degrees. It's really hot outside!")
+    else:
+        send_notification_via_pushbullet("Current temperature: " + str(temperature), "Good day!")
 
 #Execute
 main()
