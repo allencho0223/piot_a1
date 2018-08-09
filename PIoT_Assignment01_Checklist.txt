@@ -1,0 +1,20 @@
+1. Set up a database - Done using sqlite
+
+2. Humidity, Pressure, Temperature, and something relevant (feelslike temperature)
+
+3. Set up cronjob - done
+
+4. Put into database - done
+
+5. Represent the data over a period using a web interface
+
+6. Data logger
+	- The more detailed and robust your data logger is, the more marks you will get. You need to calibrate the temperature to account for warmer Raspberry Pi over time, dealing with historical data (to avoid overwriting), etc.
+
+7. Pushbullet - done, but what exactly pushbullet api means?
+
+8. Bluetooth - (5 marks) Write Python code to use Bluetooth on your Raspberry Pi to detect nearby devices and greet the person whose device is registered with the Raspberry Pi and display the current temperature. It is entirely up to you, how you will choose to represent the results. But once again, anaemic representation will receive lower marks.
+
+9. Code elegance
+	- General code elegance, clarity, and standard
+	- Version control - Github
