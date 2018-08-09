@@ -17,6 +17,14 @@ def getTemperature():
         temperature = round(temperature, 1)
     return temperature
 
+def getDiscomfortIndex():
+    temperature = getTemperature()
+    humidity = getHumidity()
+    discomfort = temperature - 0.55 * (1 - 0.01 * (humidity)) * (temperature - 14.5)
+    if discomfort is not None:
+        discomfort = round(discomfort, 1)
+    return discomfort
+
 # Get humidity from sensehat
 def getHumidity():
     humidity = sense.get_humidity()    
