@@ -28,7 +28,8 @@ http://flask.pocoo.org/docs/1.0/tutorial/templates/
                  <th>Timestamp</th>
                  <th>Humidity</th>
                  <th>Temperature</th>
-                 <th>Pressure</th>       
+                 <th>Pressure</th>
+                 <th>Discomfort</th>    
              </tr>
          </thead>
          <tbody>
@@ -41,11 +42,13 @@ http://flask.pocoo.org/docs/1.0/tutorial/templates/
                      var hum = document.createElement('td');
                      var temp = document.createElement('td');
                      var press = document.createElement('td');
+                     var discomfort = document.createElement('td');
  
                      var a = '{{ row["timestamp"] }}';
                      var b = '{{ row["humidity"] }}';
                      var c = '{{ row["temperature"] }}';
                      var d = '{{ row["pressure"] }}';
+                     var e = '{{ row["discomfort"] }}';
                      // console.log(a);
                      var stillUtc = moment.utc(a);
                      var localTime = moment(stillUtc).local().format('LLLL');
@@ -54,11 +57,13 @@ http://flask.pocoo.org/docs/1.0/tutorial/templates/
                      hum.appendChild(document.createTextNode(b));
                      temp.appendChild(document.createTextNode(c));
                      press.appendChild(document.createTextNode(d));
+                     discomfort.appendChild(document.createTextNode(e));
  
                      tableRow.appendChild(timestamp);
                      tableRow.appendChild(hum);
                      tableRow.appendChild(temp);
                      tableRow.appendChild(press);
+                     tableRow.appendChild(discomfort);
  
                      targetTable.appendChild(tableRow);
                      
