@@ -7,6 +7,8 @@
 from flask import Flask
 from flask import render_template
 import sqlite3
+from timezoneScript import timezoneConverter
+import os
 
 conn = sqlite3.connect('/home/pi/iot/ass1/sensehat_env.db', check_same_thread=False)
 conn.row_factory = sqlite3.Row
@@ -19,9 +21,11 @@ def index():
     c.execute('SELECT * FROM SENSEHAT_DATA;')
     return render_template('flask.html', rows = c.fetchall())
 
+# flask_app.jinja_env.filters['timezoneConverter'] = timezoneConverter
+
 #@app.route('/')
 #def index():
 #    return "hello world"
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, host=os.popen('hostname -I').read())
