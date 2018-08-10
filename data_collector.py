@@ -45,14 +45,15 @@ def getSenseHatData():
     temperature = getTemperature()
     humidity = getHumidity()
     pressure = getPressure()
+    discomfort = getDiscomfortIndex()
 
-    putData(humidity, temperature, pressure)
+    putData(humidity, temperature, pressure, discomfort)
 
 # Put data into the database
-def putData(humidity, temperature, pressure):
+def putData(humidity, temperature, pressure, discomfort):
     conn = sqlite3.connect(dbname)
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO SENSEHAT_data values(datetime('now'), (?), (?), (?))", (humidity, temperature, pressure))
+    cursor.execute("INSERT INTO SENSEHAT_data values(datetime('now'), (?), (?), (?), (?))", (humidity, temperature, pressure, discomfort))
     conn.commit()
     conn.close()
 
