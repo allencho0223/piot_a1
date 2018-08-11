@@ -11,29 +11,30 @@ dbname="/home/pi/iot/ass1/sensehat_env.db"
 sense = SenseHat()
 
 # Get temperature from sensehat
-def get_temperature():
+def retrieve_temperature():
     temperature = return_accuratetemp()
+    # temperature = sense.get_temperature()
     if temperature is not None:
         temperature = round(temperature, 1)
     return temperature
 
-def get_discomfort_index():
-    temperature = get_temperature()
-    humidity = get_humidity()
+def retrieve_discomfort_index():
+    temperature = retrieve_temperature()()
+    humidity = retrieve_humidity()
     discomfort = temperature - 0.55 * (1 - 0.01 * (humidity)) * (temperature - 14.5)
     if discomfort is not None:
         discomfort = round(discomfort, 1)
     return discomfort
 
 # Get humidity from sensehat
-def get_humidity():
+def retrieve_humidity():
     humidity = sense.get_humidity()    
     if humidity is not None:
         humidity = round(humidity, 1)
     return humidity
 
 # Get pressure from sensehat
-def get_pressure():
+def retrieve_pressure():
     pressure = sense.get_pressure()
     if pressure is not None:
         pressure = round(pressure, 1)
@@ -42,10 +43,10 @@ def get_pressure():
 # Get current measured data and put them into database connected
 def get_sensehat_data():
 
-    temperature = get_temperature()
-    humidity = get_humidity()
-    pressure = get_pressure()
-    discomfort = get_discomfort_index()
+    temperature = retrieve_temperature()()
+    humidity = retrieve_humidity()
+    pressure = retrieve_pressure()
+    discomfort = retrieve_discomfort_index()
 
     put_data(humidity, temperature, pressure, discomfort)
 
