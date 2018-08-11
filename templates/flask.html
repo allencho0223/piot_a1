@@ -51,7 +51,7 @@ http://flask.pocoo.org/docs/1.0/tutorial/templates/
                      var e = '{{ row["discomfort"] }}';
                      // console.log(a);
                      var stillUtc = moment.utc(a);
-                     var localTime = moment(stillUtc).local().format('LLLL');
+                     var localTime = moment(stillUtc).local().format('YYYY-MM-DD HH:mm:ss');
                      console.log("localtime: " + localTime);
                      timestamp.appendChild(document.createTextNode(localTime));
                      hum.appendChild(document.createTextNode(b));

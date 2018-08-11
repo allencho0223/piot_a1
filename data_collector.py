@@ -12,14 +12,14 @@ sense = SenseHat()
 
 # Get temperature from sensehat
 def retrieve_temperature():
-    temperature = return_accuratetemp()
-    # temperature = sense.get_temperature()
+    # temperature = return_accuratetemp()
+    temperature = sense.get_temperature()
     if temperature is not None:
         temperature = round(temperature, 1)
     return temperature
 
 def retrieve_discomfort_index():
-    temperature = retrieve_temperature()()
+    temperature = retrieve_temperature()
     humidity = retrieve_humidity()
     discomfort = temperature - 0.55 * (1 - 0.01 * (humidity)) * (temperature - 14.5)
     if discomfort is not None:
@@ -43,7 +43,7 @@ def retrieve_pressure():
 # Get current measured data and put them into database connected
 def get_sensehat_data():
 
-    temperature = retrieve_temperature()()
+    temperature = retrieve_temperature()
     humidity = retrieve_humidity()
     pressure = retrieve_pressure()
     discomfort = retrieve_discomfort_index()
