@@ -10,18 +10,18 @@ from pytz import timezone
 from sense_hat import SenseHat
 
 
-def convertTimeZone():
+def convert_time_zone():
 
     # Get the UTC object
-    utcTimeZone = datetime.now(timezone('UTC'))
+    utx_time_zone = datetime.now(timezone('UTC'))
 
     # Convert to Melbourne time zone
-    aestTimeZone = utcTimeZone.astimezone(timezone('Australia/Melbourne'))
+    aest_time_zone = utx_time_zone.astimezone(timezone('Australia/Melbourne'))
 
     # Declare a SenseHAT object and display Melbourne time zone
     # sense = SenseHat()
     # sense.show_message('Time is {}'.format(aestTimeZone), scroll_speed=0.05)
 
-    return aestTimeZone
+    return aest_time_zone
 
 

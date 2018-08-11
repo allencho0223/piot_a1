@@ -2,7 +2,7 @@
 import time
 import sqlite3
 from sense_hat import SenseHat
-from accurateTemperature import returnAccurateTemp
+from AccurateTemperature import return_accurate_temp
 
 # Set absolute path for database
 dbname="/home/pi/iot/ass1/sensehat_env.db"
@@ -11,53 +11,60 @@ dbname="/home/pi/iot/ass1/sensehat_env.db"
 sense = SenseHat()
 
 # Get temperature from sensehat
-def getTemperature():
-    temperature = returnAccurateTemp()
+def get_temperature():
+    
+    temperature = return_accurate_temp()
     if temperature is not None:
         temperature = round(temperature, 1)
     return temperature
 
-def getDiscomfortIndex():
-    temperature = getTemperature()
-    humidity = getHumidity()
+#Calculate Discomfor level
+def get_discomfortIndex():
+
+    temperature = get_temperature()
+    humidity = get_humidity()
     discomfort = temperature - 0.55 * (1 - 0.01 * (humidity)) * (temperature - 14.5)
     if discomfort is not None:
         discomfort = round(discomfort, 1)
     return discomfort
 
 # Get humidity from sensehat
-def getHumidity():
+def get_humidity():
+
     humidity = sense.get_humidity()    
     if humidity is not None:
         humidity = round(humidity, 1)
     return humidity
 
 # Get pressure from sensehat
-def getPressure():
+def get_pressure():
+
     pressure = sense.get_pressure()
     if pressure is not None:
         pressure = round(pressure, 1)
     return pressure
 
 # Get current measured data and put them into database connected
-def getSenseHatData():
+def get_sensehat_data():
 
-    temperature = getTemperature()
-    humidity = getHumidity()
-    pressure = getPressure()
-
-    putData(humidity, temperature, pressure)
+    temperature = get_temperature()
+    humidity = get_humidity()
+    pressure = get_pressure()
+    put_data(humidity, temperature, pressure)
 
 # Put data into the database
-def putData(humidity, temperature, pressure):
+def put_data(humidity, temperature, pressure):
+
     conn = sqlite3.connect(dbname)
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO SENSEHAT_data values(datetime('now'), (?), (?), (?))", (humidity, temperature, pressure))
+    cursor.execute("INSERT INTO SENSEHAT_data values(datetime('now'), (?), (?), (?))"
+    , (humidity, temperature, pressure))
     conn.commit()
     conn.close()
 
 # Display data stored in the database for debugging
-def displayData():
+def display_data():
+    
     conn = sqlite3.connect(dbname)
     curs = conn.cursor()
     print("\nEntire database contents:\n")
@@ -68,8 +75,8 @@ def displayData():
 # Main function
 def main():
     for i in range(0,3):
-        getSenseHatData()
-    displayData()
+        get_sensehat_data()
+    display_data()
 
 # Call main function
 main()
