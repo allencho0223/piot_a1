@@ -26,39 +26,41 @@ def getDiscomfortIndex():
     return discomfort
 
 # Get humidity from sensehat
-def getHumidity():
+def get_humidity():
     humidity = sense.get_humidity()    
     if humidity is not None:
         humidity = round(humidity, 1)
     return humidity
 
 # Get pressure from sensehat
-def getPressure():
+def get_pressure():
     pressure = sense.get_pressure()
     if pressure is not None:
         pressure = round(pressure, 1)
     return pressure
 
 # Get current measured data and put them into database connected
-def getSenseHatData():
+def get_sensehat_data():
 
-    temperature = getTemperature()
-    humidity = getHumidity()
-    pressure = getPressure()
-    discomfort = getDiscomfortIndex()
+    temperature = get_temperature()
+    humidity = get_humidity()
+    pressure = get_pressure()
+    discomfort = get_discomfort_index()
 
     putData(humidity, temperature, pressure, discomfort)
 
 # Put data into the database
-def putData(humidity, temperature, pressure, discomfort):
+def put_data(humidity, temperature, pressure, discomfort):
+
     conn = sqlite3.connect(dbname)
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO SENSEHAT_data values(datetime('now'), (?), (?), (?), (?))", (humidity, temperature, pressure, discomfort))
+    cursor.execute("INSERT INTO SENSEHAT_data values(datetime('now'), (?), (?), (?), (?))"
+    , (humidity, temperature, pressure, discomfort))
     conn.commit()
     conn.close()
 
 # Display data stored in the database for debugging
-def displayData():
+def display_data():
     conn = sqlite3.connect(dbname)
     curs = conn.cursor()
     print("\nEntire database contents:\n")
@@ -69,8 +71,8 @@ def displayData():
 # Main function
 def main():
     for i in range(0,3):
-        getSenseHatData()
-    displayData()
+        get_sensehat_data()
+    display_data()
 
 # Call main function
 main()
