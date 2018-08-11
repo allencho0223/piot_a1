@@ -3,7 +3,7 @@ import requests
 import json
 import time
 import os
-import accurateTemperature
+import accurate_temperature
  
 def send_notification_via_pushbullet(title, body):
     
@@ -18,9 +18,8 @@ def send_notification_via_pushbullet(title, body):
     # Access token for Allen    
     ACCESS_TOKEN="o.KsZjOYKtrgxsQP1nc8QhkBq22vvVOai3"
     resp = requests.post('https://api.pushbullet.com/v2/pushes',
-     data=json.dumps(data_send),
-                         headers={'Authorization': 'Bearer ' + ACCESS_TOKEN,
-                         'Content-Type': 'application/json'})
+                        data = json.dumps(data_send), headers={'Authorization': 'Bearer ' 
+                        + ACCESS_TOKEN, 'Content-Type': 'application/json'})
     if resp.status_code != 200:
         raise Exception('Something wrong')
     else:
@@ -35,12 +34,12 @@ def main():
     cold_temp=20
     run = 0
     while run < 1:
-        t1 = accurateTemperature.sense.get_temperature_from_humidity()
-        t2 = accurateTemperature.sense.get_temperature_from_pressure()
-        t_cpu = accurateTemperature.get_cpu_temp()
+        t1 = accurate_temperature.sense.get_temperature_from_humidity()
+        t2 = accurate_temperature.sense.get_temperature_from_pressure()
+        t_cpu = accurate_temperature.get_cpu_temp()
         t = (t1 + t2) / 2
         t_corr = t - ((t_cpu - t) / 1.5)
-        t_corr = accurateTemperature.get_smooth(t_corr)
+        t_corr = accurate_temperature.get_smooth(t_corr)
         if t_corr < cold_temp:
             send_notification_via_pushbullet(temperature_message, head_message)
             time.sleep(sleep_time)

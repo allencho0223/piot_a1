@@ -2,7 +2,7 @@
 import time
 import sqlite3
 from sense_hat import SenseHat
-from accurateTemperature import returnAccurateTemp
+from accurate_temperature import return_accuratetemp
 
 # Set absolute path for database
 dbname="/home/pi/iot/ass1/sensehat_env.db"
@@ -11,15 +11,15 @@ dbname="/home/pi/iot/ass1/sensehat_env.db"
 sense = SenseHat()
 
 # Get temperature from sensehat
-def getTemperature():
-    temperature = returnAccurateTemp()
+def get_temperature():
+    temperature = return_accuratetemp()
     if temperature is not None:
         temperature = round(temperature, 1)
     return temperature
 
-def getDiscomfortIndex():
-    temperature = getTemperature()
-    humidity = getHumidity()
+def get_discomfort_index():
+    temperature = get_temperature()
+    humidity = get_humidity()
     discomfort = temperature - 0.55 * (1 - 0.01 * (humidity)) * (temperature - 14.5)
     if discomfort is not None:
         discomfort = round(discomfort, 1)
@@ -47,7 +47,7 @@ def get_sensehat_data():
     pressure = get_pressure()
     discomfort = get_discomfort_index()
 
-    putData(humidity, temperature, pressure, discomfort)
+    put_data(humidity, temperature, pressure, discomfort)
 
 # Put data into the database
 def put_data(humidity, temperature, pressure, discomfort):
@@ -55,7 +55,7 @@ def put_data(humidity, temperature, pressure, discomfort):
     conn = sqlite3.connect(dbname)
     cursor = conn.cursor()
     cursor.execute("INSERT INTO SENSEHAT_data values(datetime('now'), (?), (?), (?), (?))"
-    , (humidity, temperature, pressure, discomfort))
+                    , (humidity, temperature, pressure, discomfort))
     conn.commit()
     conn.close()
 
@@ -70,8 +70,9 @@ def display_data():
 
 # Main function
 def main():
-    for i in range(0,3):
-        get_sensehat_data()
+#    for i in range(0,3):
+#        get_sensehat_data()
+    get_sensehat_data()
     display_data()
 
 # Call main function

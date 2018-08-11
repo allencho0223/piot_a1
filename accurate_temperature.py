@@ -31,8 +31,8 @@ def return_accuratetemp():
     t1 = sense.get_temperature_from_humidity()
     t2 = sense.get_temperature_from_pressure()
     t_cpu = get_cpu_temp()
-    h = sense.get_humidity()
-    p = sense.get_pressure()
+    # h = sense.get_humidity()
+    # p = sense.get_pressure()
 
     # calculates the real temperature compesating CPU heating
     t = (t1 + t2) / 2
