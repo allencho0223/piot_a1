@@ -31,18 +31,16 @@ def main():
     #Time in between notifications 300 (5 minutes)
     sleep_time = 300  
     cold_temp=20
-
-    while True:
-        t1 = accurate_temperature.sense.get_temperature_from_humidity()
-        t2 = accurate_temperature.sense.get_temperature_from_pressure()
+    sense = SenseHat()
+    x=0
+    while x<1:
         t_cpu = accurate_temperature.get_cpu_temp()
-        t = (t1 + t2) / 2
-        t_corr = t - ((t_cpu - t) / 1.5)
-        t_corr = accurate_temperature.get_smooth(t_corr)
+        t_corr = sense.get_temperature -  t_cpu
         if t_corr < cold_temp:
             temperature_message = ("It is {0:0.1f} degrees c".format(t_corr))
             send_notification_via_pushbullet(temperature_message, head_message)
             #Sleep program to stop notification spam
             time.sleep(sleep_time)
+            x=x+1
 
 main()
