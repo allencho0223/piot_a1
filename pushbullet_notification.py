@@ -14,9 +14,9 @@ def send_notification_via_pushbullet(title, body):
     """
     data_send = {"type": "note", "title": title, "body": body}
     # Access token for Alex
-    # ACCESS_TOKEN = 'o.gmSIfrIUwZwFFGrQlLYU8tkRW116p3k3'
+    ACCESS_TOKEN = 'o.gmSIfrIUwZwFFGrQlLYU8tkRW116p3k3'
     # Access token for Allen    
-    ACCESS_TOKEN="o.KsZjOYKtrgxsQP1nc8QhkBq22vvVOai3"
+    # ACCESS_TOKEN="o.KsZjOYKtrgxsQP1nc8QhkBq22vvVOai3"
     resp = requests.post('https://api.pushbullet.com/v2/pushes',
                         data = json.dumps(data_send), headers={'Authorization': 'Bearer ' 
                         + ACCESS_TOKEN, 'Content-Type': 'application/json'})
@@ -28,12 +28,11 @@ def send_notification_via_pushbullet(title, body):
 def main():
     
     head_message = "You should bring a jacket."
-    sleep_time = 300  #Change to 300 (5 minutes)
-    temperature_message = "It is less than 20 degrees"
-
+    #Time in between notifications 300 (5 minutes)
+    sleep_time = 300  
     cold_temp=20
-    run = 0
-    while run < 1:
+
+    while True:
         t1 = accurate_temperature.sense.get_temperature_from_humidity()
         t2 = accurate_temperature.sense.get_temperature_from_pressure()
         t_cpu = accurate_temperature.get_cpu_temp()
@@ -41,7 +40,9 @@ def main():
         t_corr = t - ((t_cpu - t) / 1.5)
         t_corr = accurate_temperature.get_smooth(t_corr)
         if t_corr < cold_temp:
+            temperature_message = ("It is {0:0.1f} degrees c".format(t_corr))
             send_notification_via_pushbullet(temperature_message, head_message)
+            #Sleep program to stop notification spam
             time.sleep(sleep_time)
 
 main()
