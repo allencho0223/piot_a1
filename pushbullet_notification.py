@@ -3,7 +3,6 @@ import requests
 import json
 import time
 import os
-import accurate_temperature
  
 def send_notification_via_pushbullet(title, body):
     
@@ -32,15 +31,14 @@ def main():
     sleep_time = 300  
     cold_temp=20
     sense = SenseHat()
-    x=0
-    while x<1:
-        t_cpu = accurate_temperature.get_cpu_temp()
-        t_corr = sense.get_temperature -  t_cpu
+    
+    while True:
+        
+        t_corr = sense.get_temperature()
         if t_corr < cold_temp:
             temperature_message = ("It is {0:0.1f} degrees c".format(t_corr))
             send_notification_via_pushbullet(temperature_message, head_message)
             #Sleep program to stop notification spam
             time.sleep(sleep_time)
-            x=x+1
 
 main()
