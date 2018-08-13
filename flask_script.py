@@ -26,4 +26,7 @@ def index():
     return render_template('flask.html', rows = c.fetchall())
 
 if __name__ == "__main__":
+    # At home
+    # app.run(debug=True, host='0.0.0.0')
+    # At university
     app.run(debug=True, host=os.popen('hostname -I').read())

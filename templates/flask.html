@@ -5,73 +5,155 @@ https://code.i-harness.com/en/q/aa91ba
 http://flask.pocoo.org/docs/1.0/tutorial/templates/
  -->
 
- <!DOCTYPE html>
- <html>
- <head>
-     <title></title>
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.21/moment-timezone-utils.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.21/moment-timezone-with-data.js"></script>
-     {{ moment.include_jquery() }}
-     {{ moment.include_moment() }}
-     <style>
-         table, th, td {
-    border: 1px solid black;
- }
-     </style>
- </head>
- <body>
-     <table id="dataTable">
-         <thead>
-             <tr>
-                 <th>Timestamp</th>
-                 <th>Humidity</th>
-                 <th>Temperature</th>
-                 <th>Pressure</th>
-                 <th>Discomfort</th>    
-             </tr>
-         </thead>
-         <tbody>
-             {% for row in rows %}
-                 <script>
-                     var targetTable = document.getElementById("dataTable");
-                     var tableRow = document.createElement('tr');
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Sense HAT Data</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.21/moment-timezone-utils.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.21/moment-timezone-with-data.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script> {{ moment.include_jquery() }} {{ moment.include_moment() }}
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even){background-color: #f2f2f2}
+    </style>
+</head>
+
+<body>
+
+    <h1>Sense HAT Environment Data table</h1>
+
+    <!-- <canvas id="line_chart" width="600" height="400"></canvas>
+    
+    <script>
+
+        // Bar chart data
+        var barData = {
+            labels: [
+                "Timestamp",
+                "Humidity",
+                "Temperature",
+                "Pressure",
+                "Discomfort"
+            ],
+            datasets: [
+                {
+                    fillColor: "rgba(151,187,205,0.2)",
+                    strokeColor: "rgba(151,187,205,1)",
+                    pointColor: "rgba(151,187,205,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(151,187,205,1)",
+                    bezierCurve : false,
+                    data: [{% for row in rows %}
+                                '{{ row["timestamp"] }}',
+                                '{{ row["humidity"] }}',
+                                '{{ row["temperature"] }}',
+                                '{{ row["pressure"] }}',
+                                '{{ row["discomfort"] }}',
+                            {% endfor %}],
+
+
+
+                }]
+        }
+
+        Chart.defaults.global.animationSteps = 50;
+        Chart.defaults.global.tooltipYPadding = 16;
+        Chart.defaults.global.tooltipCornerRadius = 0;
+        Chart.defaults.global.tooltipTitleFontStyle = "normal";
+        Chart.defaults.global.tooltipFillColor = "rgba(0,0,0,0.8)";
+        Chart.defaults.global.animationEasing = "easeOutBounce";
+        Chart.defaults.global.responsive = false;
+        Chart.defaults.global.scaleLineColor = "black";
+        Chart.defaults.global.scaleFontSize = 16;
+
+        var mychart = document.getElementById("line_chart").getContext("2d");
+
+        steps = 10
+        max = 10
+        // draw bar chart
+        var LineChartDemo = new Chart(mychart).Line(barData, {
+            scaleOverride: true,
+            scaleSteps: steps,
+            scaleStepWidth: Math.ceil(max / steps),
+            scaleStartValue: 0,
+            scaleShowVerticalLines: true,
+            scaleShowGridLines : true,
+            barShowStroke : true,
+            scaleShowLabels: true,
+            bezierCurve: false,
  
-                     var timestamp = document.createElement('td');
-                     var hum = document.createElement('td');
-                     var temp = document.createElement('td');
-                     var press = document.createElement('td');
-                     var discomfort = document.createElement('td');
- 
-                     var a = '{{ row["timestamp"] }}';
-                     var b = '{{ row["humidity"] }}';
-                     var c = '{{ row["temperature"] }}';
-                     var d = '{{ row["pressure"] }}';
-                     var e = '{{ row["discomfort"] }}';
-                     // console.log(a);
-                     var stillUtc = moment.utc(a);
-                     var localTime = moment(stillUtc).local().format('YYYY-MM-DD HH:mm:ss');
-                     console.log("localtime: " + localTime);
-                     timestamp.appendChild(document.createTextNode(localTime));
-                     hum.appendChild(document.createTextNode(b));
-                     temp.appendChild(document.createTextNode(c));
-                     press.appendChild(document.createTextNode(d));
-                     discomfort.appendChild(document.createTextNode(e));
- 
-                     tableRow.appendChild(timestamp);
-                     tableRow.appendChild(hum);
-                     tableRow.appendChild(temp);
-                     tableRow.appendChild(press);
-                     tableRow.appendChild(discomfort);
- 
-                     targetTable.appendChild(tableRow);
-                     
-                 </script>
-             {% endfor %}
-         </tbody>
-     </table>
- 
- </body>
- </html>
- 
+        });
+
+
+            
+        
+    
+
+    </script> -->
+    
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>Humidity</th>
+                <th>Temperature</th>
+                <th>Pressure</th>
+                <th>Discomfort</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+            <script>
+                var targetTable = document.getElementById("dataTable");
+                var tableRow = document.createElement('tr');
+
+                var timestamp = document.createElement('td');
+                var hum = document.createElement('td');
+                var temp = document.createElement('td');
+                var press = document.createElement('td');
+                var discomfort = document.createElement('td');
+
+                var a = '{{ row["timestamp"] }}';
+                var b = '{{ row["humidity"] }}';
+                var c = '{{ row["temperature"] }}';
+                var d = '{{ row["pressure"] }}';
+                var e = '{{ row["discomfort"] }}';
+                // console.log(a);
+                var stillUtc = moment.utc(a);
+                var localTime = moment(stillUtc).local().format('YYYY-MM-DD HH:mm:ss');
+                console.log("localtime: " + localTime);
+                timestamp.appendChild(document.createTextNode(localTime));
+                hum.appendChild(document.createTextNode(b));
+                temp.appendChild(document.createTextNode(c));
+                press.appendChild(document.createTextNode(d));
+                discomfort.appendChild(document.createTextNode(e));
+
+                tableRow.appendChild(timestamp);
+                tableRow.appendChild(hum);
+                tableRow.appendChild(temp);
+                tableRow.appendChild(press);
+                tableRow.appendChild(discomfort);
+
+                targetTable.appendChild(tableRow);
+
+            </script> {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+
+</html>
