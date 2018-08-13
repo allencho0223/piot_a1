@@ -13,8 +13,8 @@ http://flask.pocoo.org/docs/1.0/tutorial/templates/
     <title>Sense HAT Data</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.21/moment-timezone-utils.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.21/moment-timezone-with-data.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.21/moment-timezone-utils.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script> {{ moment.include_jquery() }} {{ moment.include_moment() }}
     <style>
         table {
@@ -35,39 +35,31 @@ http://flask.pocoo.org/docs/1.0/tutorial/templates/
 
     <h1>Sense HAT Environment Data table</h1>
 
-    <!-- <canvas id="line_chart" width="600" height="400"></canvas>
+    <canvas id="chart" width="600" height="400"></canvas>
     
     <script>
 
-        // Bar chart data
         var barData = {
             labels: [
-                "Timestamp",
-                "Humidity",
-                "Temperature",
-                "Pressure",
-                "Discomfort"
+                {% for item in labels %}
+                    "{{ item }}",
+                {% endfor %}
             ],
-            datasets: [
-                {
-                    fillColor: "rgba(151,187,205,0.2)",
-                    strokeColor: "rgba(151,187,205,1)",
-                    pointColor: "rgba(151,187,205,1)",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(151,187,205,1)",
-                    bezierCurve : false,
-                    data: [{% for row in rows %}
-                                '{{ row["timestamp"] }}',
-                                '{{ row["humidity"] }}',
-                                '{{ row["temperature"] }}',
-                                '{{ row["pressure"] }}',
-                                '{{ row["discomfort"] }}',
-                            {% endfor %}],
 
-
-
-                }]
+            datasets: [{
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                bezierCurve: false,
+                data: [
+                    {% for row in rows %}
+                        "{{ row["humidity"] }}",
+                    {% endfor %}
+                ]
+            }]
         }
 
         Chart.defaults.global.animationSteps = 50;
@@ -79,33 +71,29 @@ http://flask.pocoo.org/docs/1.0/tutorial/templates/
         Chart.defaults.global.responsive = false;
         Chart.defaults.global.scaleLineColor = "black";
         Chart.defaults.global.scaleFontSize = 16;
-
-        var mychart = document.getElementById("line_chart").getContext("2d");
-
-        steps = 10
-        max = 10
+        // get bar chart canvas
+        var mychart = document.getElementById("chart").getContext("2d");
+        steps = 10;
+        max = 17000;
         // draw bar chart
-        var LineChartDemo = new Chart(mychart).Line(barData, {
+        var LineChartDemo = new Chart(mychart, {
+            type: "line",
+            data: barData,
             scaleOverride: true,
             scaleSteps: steps,
             scaleStepWidth: Math.ceil(max / steps),
             scaleStartValue: 0,
             scaleShowVerticalLines: true,
-            scaleShowGridLines : true,
-            barShowStroke : true,
+            scaleShowGridLines: true,
+            barShowStroke: true,
             scaleShowLabels: true,
             bezierCurve: false,
- 
         });
 
-
-            
         
+    </script>
     
-
-    </script> -->
-    
-    <table id="dataTable">
+    <!-- <table id="dataTable">
         <thead>
             <tr>
                 <th>Timestamp</th>
@@ -152,7 +140,7 @@ http://flask.pocoo.org/docs/1.0/tutorial/templates/
 
             </script> {% endfor %}
         </tbody>
-    </table>
+    </table> -->
 
 </body>
 
