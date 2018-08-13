@@ -21,8 +21,6 @@ def send_notification_via_pushbullet(title, body):
                         + ACCESS_TOKEN, 'Content-Type': 'application/json'})
     if resp.status_code != 200:
         raise Exception('Something wrong')
-    else:
-        print('complete sending')
 
 def main():
     
@@ -36,7 +34,7 @@ def main():
         
         t_corr = sense.get_temperature()
         if t_corr < cold_temp:
-            temperature_message = ("It is {0:0.1f} degrees c".format(t_corr))
+            temperature_message = ("It is {0:0.1f} degrees celsius".format(t_corr))
             send_notification_via_pushbullet(temperature_message, head_message)
             #Sleep program to stop notification spam
             time.sleep(sleep_time)
