@@ -18,20 +18,12 @@ c = conn.cursor()
 app = Flask(__name__)
 moment = Moment(app)
 
-labels = [
-    'Timestamp',
-    'Humidity',
-    'Temperature',
-    'Pressure',
-    'Discomfort'
-]
-
 
 @app.route('/', methods=['GET'])
 def index():
     
     c.execute('SELECT * FROM SENSEHAT_DATA;')
-    return render_template('flask.html', rows = c.fetchall(), labels = labels)
+    return render_template('flask.html', rows = c.fetchall())
 
 if __name__ == "__main__":
     # At home
