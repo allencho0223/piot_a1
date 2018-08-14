@@ -41,8 +41,8 @@ http://flask.pocoo.org/docs/1.0/tutorial/templates/
 
         var barData = {
             labels: [
-                {% for item in labels %}
-                    "{{ item }}",
+                {% for row in rows %}
+                "{{ row["timestamp"] }}",
                 {% endfor %}
             ],
 
@@ -56,7 +56,7 @@ http://flask.pocoo.org/docs/1.0/tutorial/templates/
                 bezierCurve: false,
                 data: [
                     {% for row in rows %}
-                        "{{ row["humidity"] }}",
+                        "{{ row["temperature"] }}",
                     {% endfor %}
                 ]
             }]
