@@ -1,3 +1,6 @@
+#Acknowledgements: send_notification_via_pushbullet taken from PIoT lab 4.
+#Used for academic purposes
+
 from sense_hat import SenseHat
 import requests
 import json
