@@ -24,18 +24,18 @@ def send_notification_via_pushbullet(title, body):
 
 def main():
     
-    head_message = "You should bring a jacket."
+    body_message = "You should bring a jacket."
     #Time in between notifications 300 (5 minutes)
-    sleep_time = 300  
+    sleep_time = 300
     cold_temp=20
     sense = SenseHat()
     
     while True:
         
-        t_corr = sense.get_temperature()
-        if t_corr < cold_temp:
-            temperature_message = ("It is {0:0.1f} degrees celsius".format(t_corr))
-            send_notification_via_pushbullet(temperature_message, head_message)
+        temperature = sense.get_temperature()
+        if temperature < cold_temp:
+            temperature_message = ('It is {0:0.1f} degrees celsius'.format(temperature))
+            send_notification_via_pushbullet(temperature_message, body_message)
             #Sleep program to stop notification spam
             time.sleep(sleep_time)
 
