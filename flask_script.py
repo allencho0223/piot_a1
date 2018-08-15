@@ -7,8 +7,11 @@
 # Retrieving sqlite3 database into html file with flask
 # https://stackoverflow.com/questions/39816944/cannot-get-html-to-display-sqlite3-data-with-python-flask
 
-# Getting UTC time zone and conversion on - https://www.saltycrane.com/blog/2009/05/converting-time-zones-datetime-objects-python/
-# Timezone List on - https://stackoverflow.com/questions/13866926/is-there-a-list-of-pytz-timezones
+# Getting UTC time zone and conversion on
+# https://www.saltycrane.com/blog/2009/05/converting-time-zones-datetime-objects-python/
+
+# Timezone List on
+# https://stackoverflow.com/questions/13866926/is-there-a-list-of-pytz-timezones
 
 # Sqlite3 exception handlings
 # https://www.programcreek.com/python/example/6844/sqlite3.Error
@@ -21,14 +24,14 @@ import os
 from flask_moment import Moment
 from datetime import datetime
 from dateutil import tz
-from pytz import timezone
+# from pytz import timezone
 from sense_hat import SenseHat
 
-
-global c
+c = ""
 # Connect database
-try :
-    conn = sqlite3.connect('/home/pi/iot/ass1/sensehat_env.db', check_same_thread=False)
+try:
+    conn = sqlite3.connect('/home/pi/iot/ass1/sensehat_env.db', 
+                            check_same_thread=False)
     conn.row_factory = sqlite3.Row
     c = conn.cursor()
 except sqlite3.Error as e:
@@ -46,6 +49,7 @@ humidity_data = []
 temperature_data = []
 pressure_data = []
 discomfort_data = []
+
 
 def optimise_data(rows):
 
@@ -69,6 +73,7 @@ def optimise_data(rows):
         pressure_data.append(row[3])
         discomfort_data.append(row[4])
 
+
 # Execute sqlite query to retrieve data and pass them to flask 
 @app.route('/', methods=['GET'])
 def index():
@@ -78,10 +83,12 @@ def index():
     optimise_data(data)
     return render_template('flask.html', rows = time_data, hum = humidity_data,
                              temp = temperature_data, press = pressure_data, dis = discomfort_data)
-                             
+
+
 # This module is only run when it is executed by the interpreter itself
 if __name__ == "__main__":
     # At home
     # app.run(debug=True, host='0.0.0.0')
     # At university
     app.run(debug=True, host=os.popen('hostname -I').read())
+    

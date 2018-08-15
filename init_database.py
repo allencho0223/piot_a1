@@ -13,6 +13,7 @@ try:
 except sqlite3.Error:
     print("Can't open database file.")
 
+
 # Run queries
 with con: 
     cur = con.cursor() 

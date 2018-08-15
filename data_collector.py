@@ -4,10 +4,10 @@
 # Formula to calculate discomfort index
 # https://keisan.casio.com/exec/system/1351058230
 
-import time
+# import time
 import sqlite3
 from sense_hat import SenseHat
-from accurate_temperature import return_accuratetemp
+# from accurate_temperature import return_accuratetemp
 
 # Declare a variable for global uses
 dbname = ""
@@ -15,10 +15,9 @@ sense = SenseHat()
 
 # Set absolute path for database
 try:
-    dbname="/home/pi/iot/ass1/sensehat_env.db"
+    dbname = "/home/pi/iot/ass1/sensehat_env.db"
 except sqlite3.Error:
     print("Can't open database file.")
-
 
 
 # Get temperature from sensehat
@@ -27,6 +26,7 @@ def retrieve_temperature():
     if temperature is not None:
         temperature = round(temperature, 1)
     return temperature
+
 
 # Retrieve discomfort index
 def retrieve_discomfort_index():
@@ -37,6 +37,7 @@ def retrieve_discomfort_index():
         discomfort = round(discomfort, 1)
     return discomfort
 
+
 # Get humidity from sensehat
 def retrieve_humidity():
     humidity = sense.get_humidity()    
@@ -44,12 +45,14 @@ def retrieve_humidity():
         humidity = round(humidity, 1)
     return humidity
 
+
 # Get pressure from sensehat
 def retrieve_pressure():
     pressure = sense.get_pressure()
     if pressure is not None:
         pressure = round(pressure, 1)
     return pressure
+
 
 # Get current measured data and put them into database connected
 def get_sensehat_data():
@@ -62,15 +65,17 @@ def get_sensehat_data():
     # Put data into the database connected
     put_data(humidity, temperature, pressure, discomfort)
 
+
 # Put data into the database
 def put_data(humidity, temperature, pressure, discomfort):
 
     conn = sqlite3.connect(dbname)
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO SENSEHAT_data values(datetime('now'), (?), (?), (?), (?))"
-                    , (humidity, temperature, pressure, discomfort))
+    cursor.execute("INSERT INTO SENSEHAT_data values(datetime('now'), (?), (?), (?), (?))", 
+                    (humidity, temperature, pressure, discomfort))
     conn.commit()
     conn.close()
+
 
 # Display data stored in the database for debugging
 def display_data():
@@ -81,10 +86,12 @@ def display_data():
         print(row)
     conn.close()
 
+
 # Main function
 def main():
     get_sensehat_data()
     display_data()
+
 
 # Call main function
 main()
