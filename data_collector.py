@@ -1,23 +1,34 @@
 #!/usr/bin/env python3
+### Acknowledgements
+# Source files for retrieving data (humidity, temperature, pressure) are given by RMIT PIoT staff
+# Formula to calculate discomfort index
+# https://keisan.casio.com/exec/system/1351058230
+
 import time
 import sqlite3
 from sense_hat import SenseHat
 from accurate_temperature import return_accuratetemp
 
-# Set absolute path for database
-dbname="/home/pi/iot/ass1/sensehat_env.db"
-
-# Declare global sensehat object for various uses
+# Declare a variable for global uses
+dbname = ""
 sense = SenseHat()
+
+# Set absolute path for database
+try:
+    dbname="/home/pi/iot/ass1/sensehat_env.db"
+except sqlite3.Error:
+    print("Can't open database file.")
+
+
 
 # Get temperature from sensehat
 def retrieve_temperature():
-    # temperature = return_accuratetemp()
     temperature = sense.get_temperature()
     if temperature is not None:
         temperature = round(temperature, 1)
     return temperature
 
+# Retrieve discomfort index
 def retrieve_discomfort_index():
     temperature = retrieve_temperature()
     humidity = retrieve_humidity()
@@ -48,6 +59,7 @@ def get_sensehat_data():
     pressure = retrieve_pressure()
     discomfort = retrieve_discomfort_index()
 
+    # Put data into the database connected
     put_data(humidity, temperature, pressure, discomfort)
 
 # Put data into the database
@@ -71,8 +83,6 @@ def display_data():
 
 # Main function
 def main():
-#    for i in range(0,3):
-#        get_sensehat_data()
     get_sensehat_data()
     display_data()
 
