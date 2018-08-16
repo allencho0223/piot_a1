@@ -5,12 +5,15 @@ import time
 def main():
 
     global MAC_ADDRESS_FILE
-    MAC_ADDRESS_FILE = open("MAC Addresses.txt","a+")
-    register_bool = input ("Do you wish to register a device? [Y/N] ").upper()
-    if register_bool == 'Y':
-        
-        draw_bluetooth()
-        register()
+    try:
+        MAC_ADDRESS_FILE = open("MAC Addresses.txt","a+")
+        register_bool = input ("Do you wish to register a device? [Y/N] ").upper()
+        if register_bool == 'Y':
+            draw_bluetooth()
+            register()
+    except IOError:
+      print ("Error: Could not open file.")
+
     MAC_ADDRESS_FILE.close()
 
 def search_device(user_name, device_name, max_address_file):
@@ -30,8 +33,7 @@ def search_device(user_name, device_name, max_address_file):
         MAC_ADDRESS_FILE.write("{}, {}, {}\r\n".format(user_name, device_name, mac_address))
         print("{}, your device '{}' has been registered!".format(user_name, device_name))
         send_message(user_name, device_name)
-        
-            
+           
 def send_message(user_name, device_name):
 
     sense = SenseHat()
