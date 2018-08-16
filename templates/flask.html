@@ -3,35 +3,34 @@ Javascript adding data into html table with flask template(jinja2)
 https://stackoverflow.com/questions/15164655/generate-html-table-from-2d-javascript-array
 https://code.i-harness.com/en/q/aa91ba
 http://flask.pocoo.org/docs/1.0/tutorial/templates/
+
+Graph representation in Flask:
+https://pythonspot.com/flask-and-great-looking-charts-using-chart-js/
  -->
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
     <title>Sense HAT Data</title>
+
+    <!-- Load external javascript libraries (CDN)-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <script type="text/Javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <!-- <script type="text/Javascript" src="{{ url_for('static', filename = 'env_graph.js') }}"></script> -->
-    <!-- <script type="text/Javascript" src="env_graph.js"></script> -->
     <script type="text/Javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
     <script type="text/Javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.21/moment-timezone-with-data.js"></script>
     <script type="text/Javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.21/moment-timezone-utils.js"></script>
-    <script type="text/Javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script> {{ moment.include_jquery() }} {{ moment.include_moment() }}
+    <script type="text/Javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
     
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
+    <script type="text/Javascript" src="{{ url_for('static', filename='humidity.js') }}"></script>
+    <script type="text/Javascript" src="{{ url_for('static', filename='temperature.js') }}"></script>
+    <script type="text/Javascript" src="{{ url_for('static', filename='pressure.js') }}"></script>
+    <script type="text/Javascript" src="{{ url_for('static', filename='discomfort.js') }}"></script>
 
-        th, td {
-            text-align: left;
-            padding: 8px;
-        }
+    {{ moment.include_jquery() }} 
+    {{ moment.include_moment() }}
 
-        tr:nth-child(even){background-color: #f2f2f2}
-    </style>
 </head>
 
 <body>
@@ -40,14 +39,15 @@ http://flask.pocoo.org/docs/1.0/tutorial/templates/
 
     <h2>Humidity</h2>
 
+    <!-- Draw line graphs for humidity, temperature, pressure, and discomfort -->
     <canvas id="hum_chart" width="600" height="400"></canvas>
 
-    <script>
+    <script type="text/Javascript">
 
         var barData = {
             labels: [
                 {% for row in rows %}
-                    "{{ row["timestamp"] }}",
+                    '{{ row }}',
                 {% endfor %}
             ],
         
@@ -61,13 +61,12 @@ http://flask.pocoo.org/docs/1.0/tutorial/templates/
                 bezierCurve: false,
                 data: [
                     {% for row in rows %}
-                        {{ row["humidity"] }},
-                        
+                        '{{ hum[loop.index0] }}',
                     {% endfor %}
                 ]
             }]
         }
-        
+    
         Chart.defaults.global.animationSteps = 50;
         Chart.defaults.global.tooltipYPadding = 16;
         Chart.defaults.global.tooltipCornerRadius = 0;
@@ -77,10 +76,12 @@ http://flask.pocoo.org/docs/1.0/tutorial/templates/
         Chart.defaults.global.responsive = false;
         Chart.defaults.global.scaleLineColor = "black";
         Chart.defaults.global.scaleFontSize = 16;
+        
         // get bar chart canvas
         var mychart = document.getElementById("hum_chart").getContext("2d");
         steps = 10;
         max = 17000;
+
         // draw bar chart
         var LineChartDemo = new Chart(mychart, {
             type: "line",
@@ -102,11 +103,11 @@ http://flask.pocoo.org/docs/1.0/tutorial/templates/
     <canvas id="temp_chart" width="600" height="400"></canvas>
 
     <script>
-
+    
         var barData = {
             labels: [
                 {% for row in rows %}
-                    "{{ row["timestamp"] }}",
+                    '{{ row }}',
                 {% endfor %}
             ],
 
@@ -120,8 +121,7 @@ http://flask.pocoo.org/docs/1.0/tutorial/templates/
                 bezierCurve: false,
                 data: [
                     {% for row in rows %}
-                        {{ row["temperature"] }},
-                        
+                        '{{ temp[loop.index0] }}',
                     {% endfor %}
                 ]
             }]
@@ -154,6 +154,7 @@ http://flask.pocoo.org/docs/1.0/tutorial/templates/
             scaleShowLabels: true,
             bezierCurve: false,
         });
+
     </script>
     
     <h2>Pressure</h2>
@@ -161,11 +162,10 @@ http://flask.pocoo.org/docs/1.0/tutorial/templates/
     <canvas id="press_chart" width="600" height="400"></canvas>
 
     <script>
-
         var barData = {
             labels: [
                 {% for row in rows %}
-                    "{{ row["timestamp"] }}",
+                    '{{ row }}',
                 {% endfor %}
             ],
 
@@ -179,8 +179,7 @@ http://flask.pocoo.org/docs/1.0/tutorial/templates/
                 bezierCurve: false,
                 data: [
                     {% for row in rows %}
-                        {{ row["pressure"] }},
-                        
+                        '{{ press[loop.index0] }}',
                     {% endfor %}
                 ]
             }]
@@ -213,18 +212,18 @@ http://flask.pocoo.org/docs/1.0/tutorial/templates/
             scaleShowLabels: true,
             bezierCurve: false,
         });
+    
     </script>
 
     <h2>Discomfort</h2>
     
     <canvas id="dis_chart" width="600" height="400"></canvas>
-
+    
     <script>
-
         var barData = {
             labels: [
                 {% for row in rows %}
-                    "{{ row["timestamp"] }}",
+                '{{ row }}',
                 {% endfor %}
             ],
 
@@ -238,8 +237,7 @@ http://flask.pocoo.org/docs/1.0/tutorial/templates/
                 bezierCurve: false,
                 data: [
                     {% for row in rows %}
-                        {{ row["discomfort"] }},
-                        
+                        '{{ dis[loop.index0] }}',
                     {% endfor %}
                 ]
             }]
@@ -271,8 +269,11 @@ http://flask.pocoo.org/docs/1.0/tutorial/templates/
             barShowStroke: true,
             scaleShowLabels: true,
             bezierCurve: false,
-        });
+        });    
+    
     </script>
+
+    <h2>Sense HAT Data Table</h2>
     
     <table id="dataTable">
         <thead>
@@ -295,17 +296,14 @@ http://flask.pocoo.org/docs/1.0/tutorial/templates/
                 var temp = document.createElement('td');
                 var press = document.createElement('td');
                 var discomfort = document.createElement('td');
-
-                var a = '{{ row["timestamp"] }}';
-                var b = '{{ row["humidity"] }}';
-                var c = '{{ row["temperature"] }}';
-                var d = '{{ row["pressure"] }}';
-                var e = '{{ row["discomfort"] }}';
-                // console.log(a);
-                var stillUtc = moment.utc(a);
-                var localTime = moment(stillUtc).local().format('YYYY-MM-DD HH:mm:ss');
-                console.log("localtime: " + localTime);
-                timestamp.appendChild(document.createTextNode(localTime));
+                
+                var a = '{{ row }}';
+                var b = '{{ hum[loop.index0] }}';
+                var c = '{{ temp[loop.index0] }}';
+                var d = '{{ press[loop.index0] }}';
+                var e = '{{ dis[loop.index0] }}';
+                
+                timestamp.appendChild(document.createTextNode(a));
                 hum.appendChild(document.createTextNode(b));
                 temp.appendChild(document.createTextNode(c));
                 press.appendChild(document.createTextNode(d));
@@ -319,7 +317,8 @@ http://flask.pocoo.org/docs/1.0/tutorial/templates/
 
                 targetTable.appendChild(tableRow);
 
-            </script> {% endfor %}
+            </script> 
+            {% endfor %}
         </tbody>
     </table>
 
