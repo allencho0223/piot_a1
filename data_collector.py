@@ -4,10 +4,9 @@
 # Formula to calculate discomfort index
 # https://keisan.casio.com/exec/system/1351058230
 
-# import time
+# Import python packages
 import sqlite3
 from sense_hat import SenseHat
-# from accurate_temperature import return_accuratetemp
 
 # Declare a variable for global uses
 dbname = ""

@@ -17,14 +17,13 @@
 # https://www.programcreek.com/python/example/6844/sqlite3.Error
 
 # Import packages and other class libraries
-from flask import Flask
-from flask import render_template
 import sqlite3
 import os
+from flask import Flask
+from flask import render_template
 from flask_moment import Moment
 from datetime import datetime
 from dateutil import tz
-# from pytz import timezone
 from sense_hat import SenseHat
 
 c = ""
