@@ -5,15 +5,12 @@ import time
 def main():
 
     global MAC_ADDRESS_FILE
-    try:
-        MAC_ADDRESS_FILE = open("MAC Addresses.txt","a+")
-        register_bool = input ("Do you wish to register a device? [Y/N] ").upper()
-        if register_bool == 'Y':
-            draw_bluetooth()
-            register()
-    except IOError:
-      print ("Error: Could not open file.")
-
+    MAC_ADDRESS_FILE = open("MAC Addresses.txt","a+")
+    register_bool = input ("Do you wish to register a device? [Y/N] ").upper()
+    if register_bool == 'Y':
+        
+        draw_bluetooth()
+        register()
     MAC_ADDRESS_FILE.close()
 
 def search_device(user_name, device_name, max_address_file):
@@ -24,22 +21,15 @@ def search_device(user_name, device_name, max_address_file):
     device_address=None
     nearby_devices = bluetooth.discover_devices()
     for mac_address in nearby_devices:
-        device_address = mac_address
         if device_name == bluetooth.lookup_name(mac_address):
             device_address = mac_address
             break
 
     if device_address is not None:
-        MAC_ADDRESS_FILE.write("{}, {}, {}\r\n".format(user_name, device_name, mac_address))
+        MAC_ADDRESS_FILE.write("{}, {}\r\n".format(mac_address, user_name))
         print("{}, your device '{}' has been registered!".format(user_name, device_name))
-        send_message(user_name, device_name)
-           
-def send_message(user_name, device_name):
-
-    sense = SenseHat()
-    temperature = round(sense.get_temperature(), 1)
-    sense.show_message("Hi {}! the temperature today is {}*c".format(user_name, temperature), scroll_speed = 0.05)
-    #Send message
+    elif device_address is None:
+        print("Could not find {}". format(device_name))
 
 def register():
 
