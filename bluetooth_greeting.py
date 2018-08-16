@@ -4,10 +4,13 @@ import time
 
 def main():
 
-    MAC_ADDRESS_FILE = open("MAC Addresses.txt", "r")
-    #Infinite loop
-    while True:
-        scan_file(MAC_ADDRESS_FILE)
+    try:
+        MAC_ADDRESS_FILE = open("MAC Addresses.txt", "r")
+        #Infinite loop
+        while True:
+            scan_file(MAC_ADDRESS_FILE)
+    except IOError:
+        print("Error: Could not open file")
 
 def scan_file(file):
 
