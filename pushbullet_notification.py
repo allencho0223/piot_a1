@@ -42,4 +42,11 @@ def main():
             #Sleep program to stop notification spam
             time.sleep(sleep_time)
 
+        elif temperature > cold_temp:
+            temperature_message = ('It is {0:0.1f} degrees celsius'.format(temperature))
+            body_message = "You do not need a jacket today"
+            send_notification_via_pushbullet(temperature_message, body_message)
+            #Sleep program to stop notification spam
+            time.sleep(sleep_time)
+
 main()
