@@ -5,7 +5,7 @@ import time
 def main():
 
     try:
-        MAC_ADDRESS_FILE = open("/home/pi/Assignment1/MAC Addresses.txt", "r")
+        MAC_ADDRESS_FILE = open("/home/pi/Assignment1/MAC_Addresses.txt", "r")
         nearby_devices = bluetooth.discover_devices(lookup_names = False)
         #Infinite loop
         while True:
