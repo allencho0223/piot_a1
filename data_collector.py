@@ -7,6 +7,7 @@
 # Import python packages
 import sqlite3
 from sense_hat import SenseHat
+from accurate_temperature import return_accuratetemp
 
 # Declare a variable for global uses
 dbname = ""
@@ -21,7 +22,7 @@ except sqlite3.Error:
 
 # Get temperature from sensehat
 def retrieve_temperature():
-    temperature = sense.get_temperature()
+    temperature = return_accuratetemp()
     if temperature is not None:
         temperature = round(temperature, 1)
     return temperature
