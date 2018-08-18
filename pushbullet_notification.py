@@ -18,7 +18,8 @@ def send_notification_via_pushbullet(title, body):
     # Access token for Alex
     ACCESS_TOKEN = 'o.gmSIfrIUwZwFFGrQlLYU8tkRW116p3k3'
     # Access token for Allen    
-    # ACCESS_TOKEN="o.KsZjOYKtrgxsQP1nc8QhkBq22vvVOai3"
+    # ACCESS_TOKEN = "o.p9NVAaowrt8njd3fbZB4fNT4wuMhvUmp"
+    
     resp = requests.post('https://api.pushbullet.com/v2/pushes',
                         data = json.dumps(data_send), headers={'Authorization': 'Bearer ' 
                         + ACCESS_TOKEN, 'Content-Type': 'application/json'})
@@ -28,8 +29,9 @@ def send_notification_via_pushbullet(title, body):
 def main():
     
     body_message = "You should bring a jacket."
+    
     #Time in between notifications 300 (5 minutes)
-    sleep_time = 300
+    sleep_time = 60
     cold_temp=20
     sense = SenseHat()
     
@@ -38,15 +40,12 @@ def main():
         temperature = sense.get_temperature()
         if temperature < cold_temp:
             temperature_message = ('It is {0:0.1f} degrees celsius'.format(temperature))
-            send_notification_via_pushbullet(temperature_message, body_message)
-            #Sleep program to stop notification spam
-            time.sleep(sleep_time)
-
-        elif temperature > cold_temp:
+        elif temperature >= cold_temp:
             temperature_message = ('It is {0:0.1f} degrees celsius'.format(temperature))
             body_message = "You do not need a jacket today"
-            send_notification_via_pushbullet(temperature_message, body_message)
-            #Sleep program to stop notification spam
-            time.sleep(sleep_time)
+        send_notification_via_pushbullet(temperature_message, body_message)
+
+        #Sleep program to stop notification spam
+        time.sleep(sleep_time)
 
 main()
