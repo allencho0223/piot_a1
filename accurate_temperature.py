@@ -26,7 +26,11 @@ def get_smooth(x):
     xs = (get_smooth.t[0]+get_smooth.t[1]+get_smooth.t[2])/3
     return(xs)
 
+<<<<<<< HEAD:accurate_temperature.py
 def return_accuratetemp():
+=======
+def return_accurate_temp():
+>>>>>>> master:accurateTemperature.py
 
     t1 = sense.get_temperature_from_humidity()
     t2 = sense.get_temperature_from_pressure()
