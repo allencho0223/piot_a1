@@ -1,29 +1,218 @@
+<!-- Acknowledgements
+Javascript adding data into html table with flask template(jinja2)
+https://stackoverflow.com/questions/15164655/generate-html-table-from-2d-javascript-array
+https://code.i-harness.com/en/q/aa91ba
+http://flask.pocoo.org/docs/1.0/tutorial/templates/
+
+Graph representation in Flask:
+https://pythonspot.com/flask-and-great-looking-charts-using-chart-js/
+ -->
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-	<title></title>
+    <meta charset="UTF-8" />
+    <title>Sense HAT Data</title>
+
+    <!-- Load external javascript libraries (CDN)-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script type="text/Javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/Javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+    <script type="text/Javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.21/moment-timezone-with-data.js"></script>
+    <script type="text/Javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.21/moment-timezone-utils.js"></script>
+    <script type="text/Javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+    <script type="text/Javascript" src="{{ url_for('static', filename='draw_chart.js') }}"></script>
+
+    {{ moment.include_jquery() }} 
+    {{ moment.include_moment() }}
+
 </head>
+
 <body>
-	<table>
+
+    <h1>Sense HAT Environment Data table</h1>
+
+    <h2>Humidity</h2>
+
+    <!-- Draw line graphs for humidity, temperature, pressure, and discomfort -->
+    <canvas id="hum_chart" width="600" height="400"></canvas>
+
+    <script type="text/Javascript">
+
+        var barData = {
+            labels: [
+                {% for row in rows %}
+                    '{{ row }}',
+                {% endfor %}
+            ],
+        
+            datasets: [{
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                bezierCurve: false,
+                data: [
+                    {% for row in rows %}
+                        '{{ hum[loop.index0] }}',
+                    {% endfor %}
+                ]
+            }]
+        }
+
+        drawChart("hum_chart");
+        
+    </script>
+
+    <h2>Temperature</h2>
+    
+    <canvas id="temp_chart" width="600" height="400"></canvas>
+
+    <script>
+    
+        var barData = {
+            labels: [
+                {% for row in rows %}
+                    '{{ row }}',
+                {% endfor %}
+            ],
+
+            datasets: [{
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                bezierCurve: false,
+                data: [
+                    {% for row in rows %}
+                        '{{ temp[loop.index0] }}',
+                    {% endfor %}
+                ]
+            }]
+        }
+
+        drawChart("temp_chart");
+
+    </script>
+    
+    <h2>Pressure</h2>
+
+    <canvas id="press_chart" width="600" height="400"></canvas>
+
+    <script>
+        var barData = {
+            labels: [
+                {% for row in rows %}
+                    '{{ row }}',
+                {% endfor %}
+            ],
+
+            datasets: [{
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                bezierCurve: false,
+                data: [
+                    {% for row in rows %}
+                        '{{ press[loop.index0] }}',
+                    {% endfor %}
+                ]
+            }]
+        }
+
+        drawChart("press_chart");
+    
+    </script>
+
+    <h2>Discomfort</h2>
+    
+    <canvas id="dis_chart" width="600" height="400"></canvas>
+    
+    <script>
+        var barData = {
+            labels: [
+                {% for row in rows %}
+                '{{ row }}',
+                {% endfor %}
+            ],
+
+            datasets: [{
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                bezierCurve: false,
+                data: [
+                    {% for row in rows %}
+                        '{{ dis[loop.index0] }}',
+                    {% endfor %}
+                ]
+            }]
+        }
+
+        drawChart("dis_chart");
+    
+    </script>
+
+    <h2>Sense HAT Data Table</h2>
+    
+    <table id="dataTable">
         <thead>
-			<tr>
-	            <th>Timestamp</th>
-	            <th>Humidity</th>
-	            <th>Temperature</th>
-	            <th>Pressure</th>       
+            <tr>
+                <th>Timestamp</th>
+                <th>Humidity</th>
+                <th>Temperature</th>
+                <th>Pressure</th>
+                <th>Discomfort</th>
             </tr>
         </thead>
         <tbody>
             {% for row in rows %}
-            <tr>
-            	<td>{{row['timestamp']}}</td>
-                <td>{{row['humidity']}}</td>
-                <td>{{row['temperature']}}</td>
-                <td>{{row['pressure']}}</td>
-            </tr>
+            <script>
+                var targetTable = document.getElementById("dataTable");
+                var tableRow = document.createElement('tr');
+
+                var timestamp = document.createElement('td');
+                var hum = document.createElement('td');
+                var temp = document.createElement('td');
+                var press = document.createElement('td');
+                var discomfort = document.createElement('td');
+                
+                var a = '{{ row }}';
+                var b = '{{ hum[loop.index0] }}';
+                var c = '{{ temp[loop.index0] }}';
+                var d = '{{ press[loop.index0] }}';
+                var e = '{{ dis[loop.index0] }}';
+                
+                timestamp.appendChild(document.createTextNode(a));
+                hum.appendChild(document.createTextNode(b));
+                temp.appendChild(document.createTextNode(c));
+                press.appendChild(document.createTextNode(d));
+                discomfort.appendChild(document.createTextNode(e));
+
+                tableRow.appendChild(timestamp);
+                tableRow.appendChild(hum);
+                tableRow.appendChild(temp);
+                tableRow.appendChild(press);
+                tableRow.appendChild(discomfort);
+
+                targetTable.appendChild(tableRow);
+
+            </script> 
             {% endfor %}
         </tbody>
     </table>
 
 </body>
+
 </html>
