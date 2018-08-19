@@ -31,18 +31,18 @@ def send_notification_via_pushbullet(title, body):
 def main():
     
     body_message = "You should bring a jacket."
-    
-    #Time in between notifications 300 (5 minutes)
     cold_temp=20
     
-    # while True:
-        
+    # Retrieve current temperature
     temperature = return_accuratetemp()
+
     if temperature < cold_temp:
         temperature_message = ('It is {0:0.1f} degrees celsius'.format(temperature))
     elif temperature >= cold_temp:
         temperature_message = ('It is {0:0.1f} degrees celsius'.format(temperature))
         body_message = "You do not need a jacket today"
+    
+    # Send a notification from pushbullet api to a user assigned with appropriate access token
     send_notification_via_pushbullet(temperature_message, body_message)
 
 main()

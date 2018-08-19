@@ -16,9 +16,9 @@ def main():
         MAC_ADDRESS_FILE = open("/home/pi/iot/ass1/MAC_Addresses.txt", "r")
         nearby_devices = bluetooth.discover_devices(lookup_names = False)
 
-        #Infinite loop
-        while True:
-            scan_file(nearby_devices,MAC_ADDRESS_FILE)
+        # Scan a friendly device nearby the Pi from the text file
+        scan_file(nearby_devices,MAC_ADDRESS_FILE)
+        
     except IOError:
         print("Error: Could not open file")
 

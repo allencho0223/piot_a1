@@ -1,5 +1,5 @@
 // Draw a line graph in flask html script
-function drawChart(chartType) {
+function drawChart(chartType, chartLabel) {
 
     // Initialise chart figure
     Chart.defaults.global.animationSteps = 50;
@@ -21,6 +21,26 @@ function drawChart(chartType) {
     var lineChart = new Chart(mychart, {
         type: "line",
         data: barData,
+        options: {
+            title: {
+                display: true,
+                text: chartLabel + " line graph"
+            },
+            scales: {
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: chartLabel
+                    }
+                }],
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Timestamp'
+                    }
+                }]
+            }
+        },
         scaleOverride: true,
         scaleSteps: steps,
         scaleStepWidth: Math.ceil(max / steps),
