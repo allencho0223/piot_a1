@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 #Acknowledgements: send_notification_via_pushbullet taken from PIoT lab 4.
 #Used for academic purposes
 
@@ -16,9 +17,9 @@ def send_notification_via_pushbullet(title, body):
     """
     data_send = {"type": "note", "title": title, "body": body}
     # Access token for Alex
-    ACCESS_TOKEN = 'o.gmSIfrIUwZwFFGrQlLYU8tkRW116p3k3'
+    # ACCESS_TOKEN = 'o.gmSIfrIUwZwFFGrQlLYU8tkRW116p3k3'
     # Access token for Allen    
-    # ACCESS_TOKEN = "o.p9NVAaowrt8njd3fbZB4fNT4wuMhvUmp"
+    ACCESS_TOKEN = "o.p9NVAaowrt8njd3fbZB4fNT4wuMhvUmp"
     
     resp = requests.post('https://api.pushbullet.com/v2/pushes',
                         data = json.dumps(data_send), headers={'Authorization': 'Bearer ' 
@@ -31,21 +32,21 @@ def main():
     body_message = "You should bring a jacket."
     
     #Time in between notifications 300 (5 minutes)
-    sleep_time = 60
+    # sleep_time = 60
     cold_temp=20
     sense = SenseHat()
     
-    while True:
+    # while True:
         
-        temperature = sense.get_temperature()
-        if temperature < cold_temp:
-            temperature_message = ('It is {0:0.1f} degrees celsius'.format(temperature))
-        elif temperature >= cold_temp:
-            temperature_message = ('It is {0:0.1f} degrees celsius'.format(temperature))
-            body_message = "You do not need a jacket today"
-        send_notification_via_pushbullet(temperature_message, body_message)
+    temperature = sense.get_temperature()
+    if temperature < cold_temp:
+        temperature_message = ('It is {0:0.1f} degrees celsius'.format(temperature))
+    elif temperature >= cold_temp:
+        temperature_message = ('It is {0:0.1f} degrees celsius'.format(temperature))
+        body_message = "You do not need a jacket today"
+    send_notification_via_pushbullet(temperature_message, body_message)
 
         #Sleep program to stop notification spam
-        time.sleep(sleep_time)
+        # time.sleep(sleep_time)
 
 main()

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import bluetooth
 from sense_hat import SenseHat
 import time
@@ -6,7 +7,10 @@ from accurate_temperature import return_accuratetemp
 def main():
 
     try:
-        MAC_ADDRESS_FILE = open("/home/pi/Assignment1/MAC_Addresses.txt", "r")
+        # Alex's workspace
+        # MAC_ADDRESS_FILE = open("/home/pi/Assignment1/MAC_Addresses.txt", "r")
+        # Allen's workspace
+        MAC_ADDRESS_FILE = open("/home/pi/iot/ass1/MAC_Addresses.txt", "r")
         nearby_devices = bluetooth.discover_devices(lookup_names = False)
         #Infinite loop
         while True:

@@ -28,5 +28,7 @@ function drawChart(chartType) {
         scaleShowLabels: true,
         bezierCurve: false,
     });
+
+    LineChartDemo.destroy();
 }
 
