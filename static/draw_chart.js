@@ -1,4 +1,7 @@
+// Draw a line graph in flask html script
 function drawChart(chartType) {
+
+    // Initialise chart figure
     Chart.defaults.global.animationSteps = 50;
     Chart.defaults.global.tooltipYPadding = 16;
     Chart.defaults.global.tooltipCornerRadius = 0;
@@ -15,7 +18,7 @@ function drawChart(chartType) {
     max = 17000;
 
     // draw bar chart
-    var LineChartDemo = new Chart(mychart, {
+    var lineChart = new Chart(mychart, {
         type: "line",
         data: barData,
         scaleOverride: true,
@@ -29,6 +32,5 @@ function drawChart(chartType) {
         bezierCurve: false,
     });
 
-    // LineChartDemo.destroy();
 }
 

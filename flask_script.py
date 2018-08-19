@@ -17,7 +17,6 @@
 # https://www.programcreek.com/python/example/6844/sqlite3.Error
 
 # Import packages and other class libraries
-
 import sqlite3
 import os
 
@@ -57,22 +56,24 @@ discomfort_data = []
 def optimise_data(rows):
 
     # Get UTC time and local time from dateutil package
-    utc_zone = tz.tzutc()
-    local_time_zone = tz.tzlocal()
+    # utc_zone = tz.tzutc()
+    # local_time_zone = tz.tzlocal()
+    utc_zone = tz.gettz('UTC')
+    local_time_zone = tz.gettz('Australia/Melbourne')
 
     # Iterate over data from the database
     for row in rows:
 
         # Convert UTC time to local time
         utc = datetime.strptime(row[0], '%Y-%m-%d %H:%M:%S')
-        # utc = utc.replace(tzinfo=utc_zone).astimezone(tz=None)
-        utc = utc.replace(tzinfo=utc_zone)
+        utc = utc.replace(tzinfo=utc_zone).astimezone(tz=None)
+
         local_time = utc.astimezone(local_time_zone)
         local_time = datetime.strftime(local_time, '%Y-%m-%d %H:%M:%S')
 
         # Assign again for future use in flask script
         time_data.append(local_time)
-        print("time: " + local_time)
+        
         humidity_data.append(row[1])
         temperature_data.append(row[2])
         pressure_data.append(row[3])
