@@ -22,3 +22,12 @@
     background-color: #b7dcf7;
     color: white;
 }
+
+.footer {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(19, 135, 212);
+    color: white;
+    text-align: center;
+}
