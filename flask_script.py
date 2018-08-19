@@ -18,14 +18,16 @@
 
 # Import packages and other class libraries
 
-from flask import Flask
-from flask import render_template
 import sqlite3
 import os
 
-from flask_moment import Moment
 from datetime import datetime
 from dateutil import tz
+
+from flask import Flask
+from flask import render_template
+from flask_moment import Moment
+
 from sense_hat import SenseHat
 
 c = ""
@@ -63,12 +65,14 @@ def optimise_data(rows):
 
         # Convert UTC time to local time
         utc = datetime.strptime(row[0], '%Y-%m-%d %H:%M:%S')
-        utc = utc.replace(tzinfo=utc_zone).astimezone(tz=None)
+        # utc = utc.replace(tzinfo=utc_zone).astimezone(tz=None)
+        utc = utc.replace(tzinfo=utc_zone)
         local_time = utc.astimezone(local_time_zone)
         local_time = datetime.strftime(local_time, '%Y-%m-%d %H:%M:%S')
 
         # Assign again for future use in flask script
         time_data.append(local_time)
+        print("time: " + local_time)
         humidity_data.append(row[1])
         temperature_data.append(row[2])
         pressure_data.append(row[3])

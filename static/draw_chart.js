@@ -29,6 +29,6 @@ function drawChart(chartType) {
         bezierCurve: false,
     });
 
-    LineChartDemo.destroy();
+    // LineChartDemo.destroy();
 }
 
